@@ -25,3 +25,39 @@ php artisan make:migration create_{table-name}_table --create={table-name}
 php artisan migrate
 ```
 
+### モデルを作成する
+
+```
+php artisan make:model {Model-name}
+```
+
+### サーバーを起動する
+
+```
+php artisan serve
+```
+
+### Keyを設定する(必要があるみたい)
+
+```
+php artisan key:generate
+```
+
+### ルーティング
+
+```
+vi routes/web.php
+```
+
+### コントローラー
+
+```
+vi app/Http/Controllers/XxxController.php
+```
+
+## ビュー
+
+```
+vi resources/views/xxx.blade.php
+```
+
