@@ -1,0 +1,54 @@
+version: '3'
+
+networks:
+  default:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  mysql:
+    driver: ${VOLUMES_DRIVER}
+
+services:
+
+### NGINX + PHP-FPM ##############################################
+    nginx-php-fpm:
+      build: ./nginx
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ./nginx:/var/www/html/conf/nginx
+      ports:
+        - "${NGINX_HOST_HTTP_PORT}:80"
+        - "${NGINX_HOST_HTTPS_PORT}:443"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      environment:
+        SKIP_CHOWN: "true"
+        SKIP_COMPOSER: "true"
+        APPLICATION_ENV: development
+        REMOVE_FILES: 0
+        PGID: 1000
+        PUID: 1000
+        WEBROOT: /var/www/html/src/public/
+      networks:
+        - default
+
+    mysql:
+      image: mysql:8.0.15
+      container_name: bizpa_mysql
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      volumes:
+        - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+        - ./mysql/conf:/etc/mysql/conf.d
+      command:
+        - --default-authentication-plugin=mysql_native_password
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_bin
+        - --skip-character-set-client-handshake
+      ports:
+        - "${MYSQL_PORT}:3306"
+      networks:
+        - default
