@@ -4,7 +4,6 @@
 下記のツールをローカルマシン内（HostOS）にインストールしてください。
 * Docker
 * docker-compose
-* Node 10
 
 ## 手順
 1. リポジトリをclone
@@ -13,22 +12,16 @@
 ```
 cp .env.local .env
 ```
-3. フロントエンドのパッケージをインストール
-
-```
-npm install
-npm run watch
-```
-4. 下記のコマンドを実行して、ビルド
+3. 下記のコマンドを実行して、ビルド
 
 ```
 cd docker
 cp .env.example .env
 docker-compose up -d --build
 docker exec my_mysql /bin/bash -c 'mysql -uroot -proot -e "create database app ;"'
-docker-compose exec nginx-php-fpm /bin/bash -c 'cd src && composer install && php artisan key:generate && php artisan migrate'
+docker-compose exec my_nginx-php-fpm /bin/bash -c 'cd src && composer install && php artisan key:generate && php artisan migrate'
 ```
-5. HostOS側で下記へアクセス
+4. HostOS側で下記へアクセス
 http://127.0.0.1:80/
 
 画面が表示されることを確認する。
