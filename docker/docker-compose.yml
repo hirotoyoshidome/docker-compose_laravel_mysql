@@ -34,7 +34,7 @@ services:
 
     mysql:
       image: mysql:8.0.15
-      container_name: bizpa_mysql
+      container_name: my_mysql
       environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
