@@ -85,6 +85,3 @@ docker rm $(docker ps -q -a)
 ```
 php artisan migrate:refresh
 ```
-
-## 修正内容
-* nodeはhostosのままとするので、6を自動化する
